@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.ArticleCategoryRefMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.ArticleCategoryRef" >
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ronin.blog.entity.ArticleCategoryRef" >
+    insert into article_category_ref (article_id, category_id)
+    values (#{articleId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select article_id, category_id
+    from article_category_ref
+  </select>
+</mapper>

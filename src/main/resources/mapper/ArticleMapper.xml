@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Article" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="article_user_id" property="articleUserId" jdbcType="INTEGER" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="article_summary" property="articleSummary" jdbcType="VARCHAR" />
+    <result column="article_view_count" property="articleViewCount" jdbcType="INTEGER" />
+    <result column="article_comment_count" property="articleCommentCount" jdbcType="INTEGER" />
+    <result column="article_like_count" property="articleLikeCount" jdbcType="INTEGER" />
+    <result column="article_is_comment" property="articleIsComment" jdbcType="INTEGER" />
+    <result column="article_status" property="articleStatus" jdbcType="INTEGER" />
+    <result column="article_update_time" property="articleUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="article_create_time" property="articleCreateTime" jdbcType="TIMESTAMP" />
+    <result column="article_html" property="articleHtml" jdbcType="LONGVARCHAR" />
+    <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+    <result column="article_url" property="articleUrl" jdbcType="LONGVARCHAR" />
+    <association property="user" javaType="User">
+      <id column="user_id" property="userId"/>
+      <result column="user_name" property="userName"/>
+    </association>
+    <collection property="tagList" javaType="list" ofType="Tag">
+      <!-- 映射主键 -->
+      <id column="tag_id" property="tagId"/>
+      <!-- 映射普通属性 -->
+      <result column="tag_name" property="tagName"/>
+      <result column="tag_description" property="tagDescription"/>
+    </collection>
+  </resultMap>
+  <sql id="articleLine">
+    article_id, article_user_id, article_title, article_summary, article_view_count, article_comment_count,
+    article_like_count, article_is_comment, article_status, article_update_time, article_create_time,
+    article_html, article_content, article_url
+  </sql>
+  <sql id="articleAndTagLine">
+    a.* , t.tag_id , t.tag_description , t.tag_name , u.user_id , u.user_name
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Article" >
+    insert into article (article_id, article_user_id, article_title, article_summary,
+      article_view_count, article_comment_count, 
+      article_like_count, article_is_comment, article_status, 
+      article_update_time, article_create_time, 
+      article_html, article_content)
+    values (#{articleId,jdbcType=INTEGER}, #{articleUserId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, 
+      #{articleViewCount,jdbcType=INTEGER}, #{articleCommentCount,jdbcType=INTEGER}, 
+      #{articleLikeCount,jdbcType=INTEGER}, #{articleIsComment,jdbcType=INTEGER}, #{articleStatus,jdbcType=INTEGER}, 
+      #{articleUpdateTime,jdbcType=TIMESTAMP}, #{articleCreateTime,jdbcType=TIMESTAMP}, 
+      #{articleHtml,jdbcType=LONGVARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Article" >
+    update article
+    set article_user_id = #{articleUserId,jdbcType=INTEGER},
+      article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_view_count = #{articleViewCount,jdbcType=INTEGER},
+      article_comment_count = #{articleCommentCount,jdbcType=INTEGER},
+      article_like_count = #{articleLikeCount,jdbcType=INTEGER},
+      article_is_comment = #{articleIsComment,jdbcType=INTEGER},
+      article_status = #{articleStatus,jdbcType=INTEGER},
+      article_update_time = #{articleUpdateTime,jdbcType=TIMESTAMP},
+      article_create_time = #{articleCreateTime,jdbcType=TIMESTAMP},
+      article_html = #{articleHtml,jdbcType=LONGVARCHAR},
+      article_content = #{articleContent,jdbcType=LONGVARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT <include refid="articleAndTagLine"/> FROM
+    ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
+    LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
+    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    WHERE a.article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    SELECT <include refid="articleLine"/> FROM article
+  </select>
+
+  <select id="findHotArticle" resultMap="BaseResultMap">
+    select <include refid="articleLine"/> from article order by article_view_count DESC limit 10
+  </select>
+
+  <select id="findNewArticle" resultMap="BaseResultMap">
+    SELECT <include refid="articleAndTagLine"/> FROM
+    ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
+    LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
+    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    INNER JOIN (SELECT article_id FROM article LIMIT 6) s ON s.article_id = a.article_id
+    WHERE article_status = 0
+    ORDER BY article_update_time DESC
+  </select>
+
+  <select id="selectTopArticle" resultMap="BaseResultMap">
+    select <include refid="articleLine"/>
+    from article where article_status = 1 limit 1
+  </select>
+
+  <select id="selectLastOrNextArticleById" resultMap="BaseResultMap">
+    SELECT <include refid="articleLine"/>
+    FROM article WHERE article_id = #{articleId}
+  </select>
+
+  <select id="selectArticleByKeyWord" parameterType="string" resultMap="BaseResultMap">
+    SELECT <include refid="articleLine"/> FROM article
+    WHERE article_title LIKE CONCAT('%',#{keyWord},'%')
+  </select>
+</mapper>

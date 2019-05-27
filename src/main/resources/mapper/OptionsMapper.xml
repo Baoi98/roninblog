@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.OptionsMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Options" >
+    <id column="option_id" property="optionId" jdbcType="INTEGER" />
+    <result column="option_site_title" property="optionSiteTitle" jdbcType="VARCHAR" />
+    <result column="option_site_descrption" property="optionSiteDescrption" jdbcType="VARCHAR" />
+    <result column="option_meta_descrption" property="optionMetaDescrption" jdbcType="VARCHAR" />
+    <result column="option_meta_keyword" property="optionMetaKeyword" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_avatar" property="optionAboutsiteAvatar" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_title" property="optionAboutsiteTitle" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_content" property="optionAboutsiteContent" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_wechat" property="optionAboutsiteWechat" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_qq" property="optionAboutsiteQq" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_github" property="optionAboutsiteGithub" jdbcType="VARCHAR" />
+    <result column="option_aboutsite_weibo" property="optionAboutsiteWeibo" jdbcType="VARCHAR" />
+    <result column="option_tongji" property="optionTongji" jdbcType="VARCHAR" />
+    <result column="option_status" property="optionStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from options
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Options" >
+    insert into options (option_id, option_site_title, option_site_descrption, 
+      option_meta_descrption, option_meta_keyword, 
+      option_aboutsite_avatar, option_aboutsite_title, 
+      option_aboutsite_content, option_aboutsite_wechat, 
+      option_aboutsite_qq, option_aboutsite_github, 
+      option_aboutsite_weibo, option_tongji, option_status
+      )
+    values (#{optionId,jdbcType=INTEGER}, #{optionSiteTitle,jdbcType=VARCHAR}, #{optionSiteDescrption,jdbcType=VARCHAR}, 
+      #{optionMetaDescrption,jdbcType=VARCHAR}, #{optionMetaKeyword,jdbcType=VARCHAR}, 
+      #{optionAboutsiteAvatar,jdbcType=VARCHAR}, #{optionAboutsiteTitle,jdbcType=VARCHAR}, 
+      #{optionAboutsiteContent,jdbcType=VARCHAR}, #{optionAboutsiteWechat,jdbcType=VARCHAR}, 
+      #{optionAboutsiteQq,jdbcType=VARCHAR}, #{optionAboutsiteGithub,jdbcType=VARCHAR}, 
+      #{optionAboutsiteWeibo,jdbcType=VARCHAR}, #{optionTongji,jdbcType=VARCHAR}, #{optionStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Options" >
+    update options
+    set option_site_title = #{optionSiteTitle,jdbcType=VARCHAR},
+      option_site_descrption = #{optionSiteDescrption,jdbcType=VARCHAR},
+      option_meta_descrption = #{optionMetaDescrption,jdbcType=VARCHAR},
+      option_meta_keyword = #{optionMetaKeyword,jdbcType=VARCHAR},
+      option_aboutsite_avatar = #{optionAboutsiteAvatar,jdbcType=VARCHAR},
+      option_aboutsite_title = #{optionAboutsiteTitle,jdbcType=VARCHAR},
+      option_aboutsite_content = #{optionAboutsiteContent,jdbcType=VARCHAR},
+      option_aboutsite_wechat = #{optionAboutsiteWechat,jdbcType=VARCHAR},
+      option_aboutsite_qq = #{optionAboutsiteQq,jdbcType=VARCHAR},
+      option_aboutsite_github = #{optionAboutsiteGithub,jdbcType=VARCHAR},
+      option_aboutsite_weibo = #{optionAboutsiteWeibo,jdbcType=VARCHAR},
+      option_tongji = #{optionTongji,jdbcType=VARCHAR},
+      option_status = #{optionStatus,jdbcType=INTEGER}
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select option_id, option_site_title, option_site_descrption, option_meta_descrption, 
+    option_meta_keyword, option_aboutsite_avatar, option_aboutsite_title, option_aboutsite_content, 
+    option_aboutsite_wechat, option_aboutsite_qq, option_aboutsite_github, option_aboutsite_weibo, 
+    option_tongji, option_status
+    from options
+    where option_id = #{optionId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select option_id, option_site_title, option_site_descrption, option_meta_descrption, 
+    option_meta_keyword, option_aboutsite_avatar, option_aboutsite_title, option_aboutsite_content, 
+    option_aboutsite_wechat, option_aboutsite_qq, option_aboutsite_github, option_aboutsite_weibo, 
+    option_tongji, option_status
+    from options
+  </select>
+</mapper>

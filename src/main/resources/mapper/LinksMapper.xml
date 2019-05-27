@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.LinksMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Links" >
+    <id column="link_id" property="linkId" jdbcType="INTEGER" />
+    <result column="link_name" property="linkName" jdbcType="VARCHAR" />
+    <result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="linksLine">
+    link_id, link_name, link_url
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from links
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Links" >
+    insert into links (link_id, link_name, link_url
+      )
+    values (#{linkId,jdbcType=INTEGER}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Links" >
+    update links
+    set link_name = #{linkName,jdbcType=VARCHAR},
+      link_url = #{linkUrl,jdbcType=VARCHAR}
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="linksLine"/>
+    from links
+    where link_id = #{linkId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="linksLine"/>
+    from links
+  </select>
+</mapper>

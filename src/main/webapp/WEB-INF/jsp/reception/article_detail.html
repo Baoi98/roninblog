@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ronin博客</title>
+</head>
+<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/reception/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="/static/reception/css/article_detail.css"/>
+<link href="/static/reception/img/logo0.png" rel="shortcut icon"/>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
+<script src="/static/reception/js/common.js"></script>
+<!--<script src="js/snowy.js"></script>-->
+
+<body>
+
+<!--<div th:replace="reception/header :: common"></div>-->
+<div class="w_header" th:fragment="common">
+    <div class="container">
+        <div class="w_header_top">
+            <a href="#" class="w_logo"></a>
+            <span class="w_header_nav">
+                <ul>
+                    <li><a th:href="@{/}">首页</a></li>
+                    <li><a class="active" th:href="@{~/article}">文章</a></li>
+                    <li><a href="moodList.html">说说</a></li>
+                    <li><a href="comment.html">留言</a></li>
+                    <li><a th:href="@{~/about}">关于</a></li>
+                </ul>
+            </span>
+            <div class="w_search">
+                <form th:action="@{/article_search}" th:method="get">
+                    <div class="w_searchbox">
+                        <input type="text" name="keyWord" placeholder="search"/>
+                        <button type="submit">搜索</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w_container">
+    <div class="container">
+        <div class="row w_main_row">
+
+            <ol class="breadcrumb w_breadcrumb">
+                <li><a href="#" th:href="@{/}">首页</a></li>
+                <li class="active" th:href="@{/article}">文章</li>
+                <li class="active" th:text="${article.articleTitle}">我的个人博客之——阿里云空间选择</li>
+                <span class="w_navbar_tip">我们长路漫漫，只因学无止境。</span>
+            </ol>
+
+            <div class="col-lg-9 col-md-9 w_main_left">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2 class="c_titile" th:text="${article.articleTitle}">我的个人博客之——阿里云空间选择</h2>
+                        <p class="box_c">
+                            <span class="d_time">发布时间:<span th:text="${#dates.format(article.articleUpdateTime, 'yyyy-MM-dd')}">2017-02-05</span></span>
+                            <span>编辑：<a href="mailto:wfyv@qq.com" th:text="${article.user.userName}">wilco</a></span>
+                            <span>阅读:<span th:text="${article.articleViewCount}">88646</span></span>
+                        </p>
+                        <div class="keybq">
+                            <p>
+                                <span>标签</span>：
+                                <a class="label label-default" th:each="tag : ${article.tagList}" th:text="${tag.tagName}">个人博客</a>
+                            </p>
+                        </div>
+                        <ul class="infos">
+                            <p th:utext="${article.articleContent}"></p>
+                        </ul>
+
+
+                        <div class="nextinfo">
+                            <p class="last" th:if="${lastArticle != null}">
+                                上一篇：<a th:href="@{${'/article_detail'}(articleId = ${lastArticle.articleId})}" th:text="${lastArticle.articleTitle}">免费收录网站搜索引擎登录口大全</a>
+                            </p>
+                            <p class="next" th:if="${nextArticle != null}">
+                                下一篇：<a th:href="@{${'/article_detail'}(articleId = ${nextArticle.articleId})}" th:text="${nextArticle.articleTitle}">javascript显示年月日时间代码</a>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <center><div id="cyReward" role="cylabs" data-use="reward" sid="5eab7e4c363e4cb8bed0efa3604e6b42"></div></center>
+                        <div id="cyEmoji" role="cylabs" data-use="emoji" sid="5eab7e4c363e4cb8bed0efa3604e6b42"></div>
+                        <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+                        <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cysPwLFm1"></script>
+                        <!-- 多说评论框 start -->
+                        <!--<div class="ds-thread" data-thread-key="testarticle" data-title="我的个人博客之——阿里云空间选择" data-url="http://127.0.0.1:8020/wilco/article_detail.html"></div>-->
+                        <!-- 多说评论框 end -->
+                        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                        <!--<script type="text/javascript">
+                            var duoshuoQuery = {short_name:"wfyvv"};
+                            (function() {
+                                var ds = document.createElement('script');
+                                ds.type = 'text/javascript';ds.async = true;
+                                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                                ds.charset = 'UTF-8';
+                                (document.getElementsByTagName('head')[0]
+                                    || document.getElementsByTagName('body')[0]).appendChild(ds);
+                            })();
+                        </script>-->
+                        <!-- 多说公共JS代码 end -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 w_main_right">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">最新发布</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled sidebar">
+                            <li th:each="newArticles : ${session.newArticles}">
+                                <a th:href="@{${'/article_detail'}(articleId = ${newArticles.articleId})}" th:text="${newArticles.articleTitle}">排序算法之冒泡排序 － java实现</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">友情链接</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="newContent">
+                            <ul class="list-unstyled sidebar shiplink">
+                                <li th:each="links : ${session.linksList}">
+                                    <a href="https://www.baidu.com/" target="_blank" th:text="${links.linkName}"
+                                       th:href="@{${links.linkUrl}}">百度</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="reception/footer :: common"></div>
+
+<!--toTop-->
+<div id="shape">
+    <div class="shapeColor">
+        <div class="shapeFly">
+        </div>
+    </div>
+</div>
+<!--snow-->
+<!--<div class="snow-container"></div>-->
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.alibaba.com/schema/stat"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.alibaba.com/schema/stat http://www.alibaba.com/schema/stat.xsd">
+
+
+    <!-- 扫描注解 -->
+    <context:component-scan base-package="com.ronin.blog.service"/>
+
+    <!-- 注解事务 -->
+    <tx:annotation-driven/>
+
+</beans>

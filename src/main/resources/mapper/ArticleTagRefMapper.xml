@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.ArticleTagRefMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.ArticleTagRef" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <id column="tag_id" property="tagId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="articleTagRefLine">
+    article_id, tag_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from article_tag_ref
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and tag_id = #{tagId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.ArticleTagRef" >
+    insert into article_tag_ref (article_id, tag_id)
+    values (#{articleId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="articleTagRefLine"/>
+    from article_tag_ref
+  </select>
+
+  <select id="selectArticleTagRefByArticleId" resultMap="BaseResultMap">
+    SELECT <include refid="articleTagRefLine"/>
+    FROM article_tag_ref WHERE article_id = #{articleId}
+  </select>
+</mapper>
