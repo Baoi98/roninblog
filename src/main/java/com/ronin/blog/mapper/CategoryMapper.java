@@ -1,6 +1,8 @@
 package com.ronin.blog.mapper;
 
 import com.ronin.blog.entity.Category;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface CategoryMapper {
@@ -13,4 +15,8 @@ public interface CategoryMapper {
     List<Category> selectAll();
 
     int updateByPrimaryKey(Category record);
+
+    int updateCategoryParent(@Param("categoryId") Integer categoryId,@Param("status") Integer status);
+
+    Integer selectCategoryCount();
 }

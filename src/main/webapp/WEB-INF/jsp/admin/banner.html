@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- Drop Zone-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/static/admin/assets/plugins/dropzone/css/basic.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+
+    <!-- banner -->
+    <link rel="stylesheet" href="/static/admin/assets/css/banner/banner.css"/>
+
+</head>
+<body>
+    <section id="main-wrapper" class="theme-default">
+
+        <div th:replace="admin/header :: common"></div>
+
+        <div th:replace="admin/menu :: common"></div>
+
+
+        <!--main content start-->
+        <section class="main-content-wrapper">
+            <div class="pageheader">
+                <h1>轮播图</h1>
+                <div class="breadcrumb-wrapper hidden-xs">
+                    <span class="label">You are here:</span>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/admin/index}">主页</a>
+                        </li>
+                        <li>系统设置</li>
+                        <li class="active">轮播图</li>
+                    </ol>
+                </div>
+            </div>
+            <section id="main-content" class="animated fadeInUp">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">图片上传</h2>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-12">
+                                    <div id="dropz" class="dropzone">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="message" class="alert alert-danger alert-dismissable" style="display: none;">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <p id="meg" style="text-align: center;">Oh snap!Change a few things up and try submitting again.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">已上传轮播图</h2>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <div id="center">
+                                        <div id="slider">
+                                            <div class="slide" th:each="banner,bannerStat: ${bannerList}">
+                                                <img class="diapo" th:src="${banner.bannerUrl}" src="/static/admin/assets/img/banner/sf10.jpg" alt="">
+                                                <div class="text"></div>
+                                                <input type="hidden" th:id="${banner.bannerId + 100}" th:value="${banner.bannerStatus}">
+                                                <img class="stop" th:id="${banner.bannerId}" th:if="${banner.bannerStatus == 0}" th:onclick="'javascript: changeStatus('+${banner.bannerId}+','+${bannerStat.index}+')'" src="/static/admin/assets/img/stop.png" title="启用"/>
+                                                <img class="stop" th:id="${banner.bannerId}" th:if="${banner.bannerStatus == 1}" th:onclick="'javascript:changeStatus('+${banner.bannerId}+','+${bannerStat.index}+')'" src="/static/admin/assets/img/start.png" title="禁用"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+    </section>
+
+
+    <div th:replace="admin/config :: common"></div>
+
+    <!--/Config demo-->
+    <!--Global JS-->
+    <script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+    <script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+    <script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+    <script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+    <script src="/static/admin/assets/js/src/app.js"></script>
+    <!--Page Level JS-->
+    <script src="/static/admin/assets/plugins/dropzone/js/dropzone.min.js"></script>
+    <!-- banner -->
+    <script src="/static/admin/assets/js/banner/banner.js"></script>
+    <script src="/static/admin/assets/js/html/banner.js"></script>
+
+</body>
+</html>

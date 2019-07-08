@@ -5,12 +5,22 @@
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
   </resultMap>
+  <sql id="line">
+    article_id, category_id
+  </sql>
   <insert id="insert" parameterType="com.ronin.blog.entity.ArticleCategoryRef" >
     insert into article_category_ref (article_id, category_id)
     values (#{articleId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
   </insert>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select article_id, category_id
+    select <include refid="line"/>
     from article_category_ref
   </select>
+
+  <update id="updateByPrimaryKey" parameterType="ArticleCategoryRef">
+    update article_category_ref
+    set category_id = #{categoryId}
+    where article_id = #{articleId}
+  </update>
+
 </mapper>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/admin/assets/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- DataTables-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/dataTables/css/dataTables.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--<script src="/static/admin/assets/js/vendor/html5shiv.js"></script>-->
+    <script src="/static/admin/assets/js/vendor/respond.min.js"></script>
+
+</head>
+<body>
+    <section id="main-wrapper" class="theme-default">
+
+        <div th:replace="admin/header :: common"></div>
+
+        <div th:replace="admin/menu :: common"></div>
+
+        <!--main content start-->
+        <section class="main-content-wrapper">
+            <div class="pageheader">
+                <h1>所有文章</h1>
+                <div class="breadcrumb-wrapper hidden-xs">
+                    <span class="label">You are here:</span>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/admin/index}">主页</a></li>
+                        <li>文章</li>
+                        <li class="active">所有文章</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="message" class="alert alert-danger alert-dismissable" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <p id="meg" style="text-align: center;">Oh snap!Change a few things up and try submitting again.</p>
+                </div>
+            </div>
+            <!-- 搜索栏 -->
+            <div id="SearchBar" class="row" style="margin: 0px 5px 0px 5px;display: none;">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">搜索文章</h3>
+                            <div class="actions pull-right">
+                                <i class="fa fa-expand"></i>
+                                <i class="fa fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="articleTitle" class="col-sm-1 control-label">标题</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name="articleTitle" id="articleTitle" placeholder="Title">
+                                    </div>
+
+                                    <label for="articleContent" class="col-sm-1 control-label">内容</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name="articleContent" id="articleContent" placeholder="Content">
+                                    </div>
+
+                                    <label for="articleStatus" class="col-sm-1 control-label">状态</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" name="articleStatus" id="articleStatus" style="height: 40px;">
+                                            <option value="0" >未置顶</option>
+                                            <option value="1" >已置顶</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <button type="button" onclick="search();" class="btn btn-primary" style="width: 150px;margin-left: 100px;">检索</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section id="main-content" class="animated fadeInUp">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">所有文章</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-expand"></i>
+                                    <i class="fa fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="panel-heading">
+                                <a href="/admin/add" style="width: 5%;" data-toggle="modal" data-target="#tagModal" class="btn btn-primary">
+                                    新增
+                                </a>
+                                <button type="button" id="search" style="width: 5%;" data-toggle="modal" data-target="#tagModal" class="btn btn-primary">
+                                    搜索
+                                </button>
+                            </div>
+                            <div class="panel-body">
+                                <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>标题</th>
+                                        <th>展示图</th>
+                                        <th>文章状态</th>
+                                        <th>浏览数</th>
+                                        <th>更新日期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <!--main content end-->
+    </section>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">警告！</h4>
+                </div>
+                <div class="modal-body">你确定要删除该文章嘛？</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button id="aInput" type="button" data-dismiss="modal" class="btn btn-danger">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="admin/config :: common"></div>
+
+    <!--Global JS-->
+    <script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+    <script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+    <script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+    <script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+    <script src="/static/admin/assets/js/src/app.js"></script>
+    <!--Page Leve JS -->
+    <script src="/static/admin/assets/plugins/dataTables/js/jquery.dataTables.js"></script>
+    <script src="/static/admin/assets/plugins/dataTables/js/dataTables.bootstrap.js"></script>
+    <script src="/static/admin/assets/js/html/DateTime.js"></script>
+    <script src="/static/admin/assets/js/html/article.js"></script>
+
+    <script>
+        $("#search").click(function(){
+            $("#SearchBar").fadeToggle("slow");
+        });
+    </script>
+
+</body>
+
+</html>

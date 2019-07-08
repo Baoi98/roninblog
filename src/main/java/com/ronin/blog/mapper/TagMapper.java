@@ -1,12 +1,16 @@
 package com.ronin.blog.mapper;
 
+import com.ronin.blog.entity.Article;
 import com.ronin.blog.entity.Tag;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface TagMapper {
+
     int deleteByPrimaryKey(Integer tagId);
 
-    int insert(Tag record);
+    int insert(@Param(value = "tagName") String tagName,@Param(value = "tagDescription") String tagDescription);
 
     Tag selectByPrimaryKey(Integer tagId);
 
@@ -14,6 +18,8 @@ public interface TagMapper {
 
     int updateByPrimaryKey(Tag record);
 
-    List<Tag> selectTagByArticleId(Integer articleId);
+    List<Tag> selectByDataTable(@Param(value = "start") Integer start,@Param(value = "length") Integer length);
+
+    Integer selectTagCount();
 
 }

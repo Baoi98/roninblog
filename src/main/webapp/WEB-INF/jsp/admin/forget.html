@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ronin_Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/admin/assets/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/static/admin/assets/js/vendor/html5shiv.js"></script>
+    <script src="/static/admin/assets/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <!-- Ajax -->
+    <script src="/static/admin/assets/js/html/forget.js"></script>
+</head>
+
+<body>
+<section class="container animated fadeInUp">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div id="login-wrapper">
+                <header>
+                    <div class="brand">
+                        <a href="javascript:void(0)" class="logo">
+                            <i class="icon-layers"></i>
+                            <span>Ronin</span>Blog</a>
+                    </div>
+                </header>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Change Password
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group" >
+                            <div id="message" class="alert alert-danger alert-dismissable" style="display: none;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p id="meg" style="text-align: center;">Oh snap!Change a few things up and try submitting again.</p>
+                            </div>
+                        </div>
+
+                        <p >Remember Password ? <a th:href="@{/admin/login}"><strong style="font-size: 18px;">Sign In</strong></a></p>
+
+                        <div class="form-group">
+                            <label for="InputName">Name</label>
+                            <input type="text" name="userName" class="form-control" id="InputName" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputEmail">Email</label>
+                            <input type="email" name="userEmail" class="form-control" id="InputEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputPassword">Password</label>
+                            <input type="password" name="userPass" class="form-control" id="InputPassword" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputPassword1">Retype Password</label>
+                            <input type="password" name="userPassRetype" class="form-control" id="InputPassword1" placeholder="Retype your password" required>
+                        </div>
+                        <br>
+                        <button onclick="changePassword()" class="btn btn-primary btn-block">Change Password</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<!--Global JS-->
+<script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+<script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+<script src="/static/admin/assets/js/src/app.js"></script>
+
+</body>
+</html>

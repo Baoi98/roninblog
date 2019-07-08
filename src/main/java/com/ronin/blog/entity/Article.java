@@ -38,5 +38,7 @@ public class Article {
 
     private User user;
 
+    private Category category;
+
     private List<Tag> tagList;
 }

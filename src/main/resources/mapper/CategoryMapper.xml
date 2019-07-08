@@ -6,19 +6,24 @@
     <result column="category_pid" property="categoryPid" jdbcType="INTEGER" />
     <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
     <result column="category_description" property="categoryDescription" jdbcType="VARCHAR" />
-    <result column="category_order" property="categoryOrder" jdbcType="INTEGER" />
+    <result column="category_parent" property="categoryParent" jdbcType="INTEGER" />
     <result column="category_icon" property="categoryIcon" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="categoryLine">
+      category_id, category_pid, category_name,
+      category_description, category_parent, category_icon
+  </sql>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from category
     where category_id = #{categoryId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ronin.blog.entity.Category" >
-    insert into category (category_id, category_pid, category_name, 
-      category_description, category_order, category_icon
+    insert into category (category_pid, category_name,
+      category_description, category_parent, category_icon
       )
-    values (#{categoryId,jdbcType=INTEGER}, #{categoryPid,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, 
-      #{categoryDescription,jdbcType=VARCHAR}, #{categoryOrder,jdbcType=INTEGER}, #{categoryIcon,jdbcType=VARCHAR}
+    values (#{categoryPid,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
+      #{categoryDescription,jdbcType=VARCHAR}, #{categoryParent,jdbcType=INTEGER}, #{categoryIcon,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Category" >
@@ -26,19 +31,25 @@
     set category_pid = #{categoryPid,jdbcType=INTEGER},
       category_name = #{categoryName,jdbcType=VARCHAR},
       category_description = #{categoryDescription,jdbcType=VARCHAR},
-      category_order = #{categoryOrder,jdbcType=INTEGER},
+      category_parent = #{categoryParent,jdbcType=INTEGER},
       category_icon = #{categoryIcon,jdbcType=VARCHAR}
     where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select category_id, category_pid, category_name, category_description, category_order, 
-    category_icon
+    select <include refid="categoryLine"/>
     from category
     where category_id = #{categoryId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select category_id, category_pid, category_name, category_description, category_order, 
-    category_icon
+    select <include refid="categoryLine"/>
     from category
+  </select>
+
+  <update id="updateCategoryParent">
+    update category set category_parent = #{status} where category_id = #{categoryId}
+  </update>
+
+  <select id="selectCategoryCount" resultType="integer">
+    select count(*) from category
   </select>
 </mapper>

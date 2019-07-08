@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<!-- 模态框（Modal） -->
+<div th:fragment="common" class="modal fade" id="cateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">警告</h4>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 16px;">你确定要删除该分类嘛？<span style="color: red;font-weight: 800;">若删除根节点，子节点也会随之删除！</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="cateDelete" type="button" data-dismiss="modal" class="btn btn-danger">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

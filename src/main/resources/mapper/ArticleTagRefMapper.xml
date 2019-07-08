@@ -26,4 +26,26 @@
     SELECT <include refid="articleTagRefLine"/>
     FROM article_tag_ref WHERE article_id = #{articleId}
   </select>
+
+  <select id="selectArticleTagRefByTagId" resultMap="BaseResultMap">
+    SELECT <include refid="articleTagRefLine"/>
+    FROM article_tag_ref WHERE tag_id = #{tagId}
+  </select>
+
+  <insert id="insertByInteger" parameterType="map">
+    insert into article_tag_ref(article_id, tag_id)
+    values
+    <foreach collection="tagId" item="item" open="" separator="," index="index">
+      (#{articleId}, #{item})
+    </foreach>
+  </insert>
+
+  <update id="updateArticleTagRef" parameterType="map">
+    update article_tag_ref set
+    <foreach collection="tagId" item="item" open="(" separator="," close=")" index="index">
+      tag_id = #{item}
+    </foreach>
+    where
+    article_id = #{articleId}
+  </update>
 </mapper>

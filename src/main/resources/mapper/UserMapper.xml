@@ -55,4 +55,18 @@
     select <include refid="userLine"/>
     from user
   </select>
+
+  <select id="selectByUserEmail" resultMap="BaseResultMap">
+    select <include refid="userLine"/>
+    from user where user_email = #{userEmail}
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select <include refid="userLine"/>
+    from user where user_name = #{userName}
+  </select>
+
+  <update id="changeUserPass" parameterType="map">
+    update user set user_pass = #{userPassword} where user_email = #{userEmail}
+  </update>
 </mapper>

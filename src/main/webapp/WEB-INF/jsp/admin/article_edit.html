@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/admin/assets/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!--Page Level CSS-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/icheck/css/all.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Drop Zone-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/static/admin/assets/plugins/dropzone/css/basic.css">
+    <!-- Editormd -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/editor.md/css/editormd.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/static/admin/assets/js/vendor/html5shiv.js"></script>
+    <script src="/static/admin/assets/js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<section id="main-wrapper" class="theme-default">
+    <div th:replace="admin/header :: common"></div>
+
+    <div th:replace="admin/menu :: common"></div>
+
+    <!--main content start-->
+    <section class="main-content-wrapper">
+        <div class="pageheader">
+            <h1 th:if="${article != null}" th:text="编辑文章">编写文章</h1>
+            <!--<h1 th:if="${article == null}" th:text="编写文章">WYSIWYG Editor</h1>-->
+            <div class="breadcrumb-wrapper hidden-xs">
+                <span class="label">You are here:</span>
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/admin/main}">主页</a>
+                    </li>
+                    <li>文章</li>
+                    <li class="active" th:if="${article != null}" th:text="编辑文章">WYSIWYG Editor</li>
+                    <li class="active" th:if="${article == null}" th:text="编写文章">WYSIWYG Editor</li>
+                </ol>
+            </div>
+        </div>
+        <section id="main-content" class="animated fadeInUp">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" th:if="${article != null}" th:text="编辑文章">Form Validations</h3>
+                            <h3 class="panel-title" th:if="${article == null}" th:text="编写文章">Form Validations</h3>
+                            <div class="actions pull-right">
+                                <i class="fa fa-expand"></i>
+                                <i class="fa fa-chevron-down"></i>
+                                <i class="fa fa-times"></i>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form class="form-horizontal form-border" action="/admin/edit_do" method="post" id="form" enctype="multipart/form-data">
+                                <input type="hidden" th:value="${article.articleId}" name="articleId"/>
+                                <input type="hidden" th:value="${article.articleCreateTime}" name="articleCreateTime"/>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">标题</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="height: 45px;" class="form-control" name="articleTitle" id="articleTitle" th:value="${article.articleTitle}" required="" placeholder="Title">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">概要</label>
+                                    <div class="col-sm-8">
+                                        <textarea type="text" class="form-control" name="articleSummary" id="articleSummary" th:text="${article.articleSummary}" required="" placeholder="Summary"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="articleStatus" style="height: 45px;">
+                                            <option value="0" th:selected="${article.articleStatus == 0}">未置顶</option>
+                                            <option value="1" th:selected="${article.articleStatus == 1}">置顶</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">展示图</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="height: 45px;" class="form-control"  name="articleUrl" id="articleUrl" th:value="${article.articleUrl}" required="" placeholder="Title">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-8">
+                                        <div id="dropz" class="dropzone">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">文章内容</label>
+                                    <div class="col-sm-8">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="test-editor">
+                                        <input type="hidden" name="articleHtml" id="articleHtml">
+                                        <input type="hidden" name="articleContent" id="articleContent">
+                                        <textarea id="articleDetail" th:text="${article.articleHtml}"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-9 col-sm-10">
+                                        <button style="width: 14%;height: 40px;" type="submit" onclick="word()" class="btn btn-primary">修改文章</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-9 col-sm-10">
+                                        <button style="width: 14%;height: 40px;" type="submit" onclick="history.go(-1)" class="btn btn-primary">返回上一级</button>
+                                    </div>
+                                </div>
+                                <br>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!--main content end-->
+</section>
+
+<div th:replace="admin/config :: common" ></div>
+
+<!--Global JS-->
+<script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+<script src="/static/admin/assets/plugins/icheck/js/icheck.min.js"></script>
+<script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+<script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+<script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+<script src="/static/admin/assets/js/src/app.js"></script>
+<!--Page Level JS-->
+<script src="/static/admin/assets/plugins/ckeditor/ckeditor.js"></script>
+<!-- dropZone -->
+<script src="/static/admin/assets/plugins/dropzone/js/dropzone.min.js"></script>
+<script src="/static/admin/assets/js/html/dropZone.js"></script>
+<!-- Editormd -->
+<script src="/static/admin/assets/plugins/editor.md/lib/marked.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/prettify.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/raphael.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/underscore.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/sequence-diagram.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/flowchart.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/lib/codemirror/codemirror.min.js"></script>
+<script src="/static/admin/assets/plugins/editor.md/editormd.js"></script>
+<script src="/static/admin/assets/js/html/editor.md.js"></script>
+<script>
+    $(document).ready(function() {
+        app.customCheckbox();
+    });
+</script>
+</body>
+
+</html>

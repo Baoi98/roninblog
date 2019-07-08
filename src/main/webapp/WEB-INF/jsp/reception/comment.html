@@ -5,19 +5,26 @@
 	<title>Ronin博客</title>
 </head>
 
-<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/reception/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="/static/reception/css/amazeui.min.css"/>
 
-<link href="logo.ico" rel="shortcut icon"/>
-<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/reception/plugin/jquery.page.js"></script>
-<script src="/static/reception/js/common.js"></script>
-<!--<script src="js/snowy.js"></script>-->
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+<!-- Fonts  -->
+<link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+<!-- Switchery -->
+<link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+<!-- CSS Animate -->
+<link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+<!-- Editor-->
+<link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap-wysihtml5/css/bootstrap-wysihtml5.css">
+<!-- Custom styles for this theme -->
+<link rel="stylesheet" href="/static/admin/assets/css/main.css">
+<!-- Feature detection -->
+<script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
 
-
-
-<body>
+<body style="background: #ededed">
 	<div class="w_header">
 		<div class="container">
 			<div class="w_header_top">
@@ -25,12 +32,11 @@
 				<!--<span class="w_slogan">百度一下,你就知道</span>-->
 				<span class="w_header_nav">
 					<ul>
-						<li><a href="" th:href="@{/}">首页</a></li>
-						<li><a href="" class="active" th:href="@{~/article}">文章</a></li>
-						<li><a href="moodList.html">说说</a></li>
-						<li><a href="comment.html">留言</a></li>
-                    	<li><a href="about.html" th:href="@{~/about}">关于</a></li>
-					</ul>
+                    <li><a href="" th:href="@{/}">首页</a></li>
+                    <li><a href="article.html" th:href="@{~/article}">文章</a></li>
+                    <li><a href="comment.html" class="active" th:href="@{/comment}">留言</a></li>
+                    <li><a href="about.html" th:href="@{~/about}">关于</a></li>
+                </ul>
 				</span>
 				<div class="w_search">
 					<form th:action="@{/article_search}" th:method="get">
@@ -48,45 +54,94 @@
 			<div class="row w_main_row">
 				<ol class="breadcrumb w_breadcrumb">
 					<li><a href="#" th:href="@{/}">首页</a></li>
-					<li class="active">评论</li>
+					<li class="active">留言</li>
 					<span class="w_navbar_tip">你，生命中最重要的过客，之所以是过客，因为你未曾为我停留。</span>
 				</ol>
 				
-				<div class="col-lg-9 col-md-9 w_main_left">
+				<div class="col-lg-12 col-md-12 ">
 
-					<!--PC版-->
-					<div id="SOHUCS" sid="5eab7e4c363e4cb8bed0efa3604e6b42"></div>
-					<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
-					<script type="text/javascript">
-						window.changyan.api.config({
-						appid: 'cysPwLFm1',
-						conf: 'prod_6c6350e206c502f569b865b4bf121e60'
-						});
-					</script>
-					
-					<!-- 多说评论框 start -->
-						<div class="ds-thread" data-thread-key="5eab7e4c363e4cb8bed0efa3604e6b42" data-title="请替换成文章的标题" data-url="请替换成文章的网址"></div>
-					<!-- 多说评论框 end -->
-					<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-					<script type="text/javascript">
-					var duoshuoQuery = {short_name:"wfyvv"};
-						(function() {
-							var ds = document.createElement('script');
-							ds.type = 'text/javascript';ds.async = true;
-							ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-							ds.charset = 'UTF-8';
-							(document.getElementsByTagName('head')[0] 
-							 || document.getElementsByTagName('body')[0]).appendChild(ds);
-						})();
-						</script>
-					<!-- 多说公共JS代码 end -->
+					<div class="col-md-12 col-sm-12" id="inbox-wrapper">
+						<section class="panel">
+							<header class="panel-heading wht-bg">
+								<h3 class="gen-case">留言区</h3>
+							</header>
+							<div class="panel-body minimal">
 
+								<div class="table-responsive modal-body" style="height:600px; overflow:auto;padding-right: 30px;">
+									<table class="table table-inbox table-hover">
+										<tbody>
+											<tr class="unread" th:each="comment : ${commentList}" th:onclick="'javascript: showDetail('+${comment.commentId}+')' ">
+												<td><input id="cId" type="hidden" th:value="${comment.commentId}" /> </td>
+												<td class="message" style="padding-top: 15px;">
+													<a href="javascript:void (0)">
+														<span class="title" th:text="${comment.commentEmail}" style="margin-bottom: 15px;">Dribbble</span>
+
+														<p th:text="${comment.commentText}">[Dribbble] Work Inquiry from Google Inc.</p>
+													</a>
+												</td>
+												<td class="text-right" th:text="${#dates.format(comment.commentTime, 'yyyy-MM-dd')}">April 20</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</section>
+					</div>
+					<div class="col-md-12 col-sm-12">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading" style="padding-bottom: 30px;">
+										<h3 class="panel-title">&nbsp;</h3>
+										<div class="actions pull-right">
+											<input type="email" class="form-control" id="commentEmail" placeholder="email" style="width: 260px;" required>
+										</div>
+									</div>
+									<div class="panel-body">
+										<input type="hidden" value=""/>
+										<textarea class="textarea form-control" id="commentText" rows="10" cols="80" placeholder="Enter text ..." style="width: 100%; height: 200px;margin-bottom: 20px;" required></textarea>
+										<button type="button" id="cSubmit" class="btn btn-success" style="width: 120px;float: right;"><i class="fa fa-check"></i>留言 </button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 w_main_right">
-					<img src="/static/reception/img/head.png" style="width: 250px;height: 250px;"/>
+			</div>
+		</div>
+	</div>
+
+	<!-- 模态框（Modal） -->
+	<div th:fragment="common" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title" id="myModalLabel">温馨提醒</h3>
 				</div>
+				<div class="modal-body" id="cMessage" style="color: red;"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
+	<!-- 模态框（Modal） -->
+	<div th:fragment="common" class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="modal-title" id="cEmail" style="text-align: center">留言详情</h3>
+				</div>
+				<div class="modal-body" id="cDeatil"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -102,5 +157,21 @@
 	</div>
 	<!--snow-->
 	<!--<div class="snow-container"></div>-->
+	<script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+	<script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+	<script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+	<script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+	<script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+	<script src="/static/admin/assets/js/src/app.js"></script>
+	<!--Page Level JS-->
+	<script src="/static/admin/assets/plugins/bootstrap-wysihtml5/js/wysihtml5-0.3.0.js"></script>
+	<script src="/static/admin/assets/plugins/bootstrap-wysihtml5/js/bootstrap3-wysihtml5.js"></script>
+	<script src="/static/admin/assets/plugins/ckeditor/ckeditor.js"></script>
+
+	<script src="/static/reception/js/common.js"></script>
+
+	<script src="/static/reception/js/html/comment.js"></script>
+
 </body>
 </html>

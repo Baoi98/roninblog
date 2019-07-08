@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- iCheck-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/icheck/css/all.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Editor-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap-wysihtml5/css/bootstrap-wysihtml5.css">
+    <!-- load -->
+    <link rel="stylesheet" href="/static/admin/assets/css/load/htmleaf-demo.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/load/normalize.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/load/style.css">
+
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<section id="main-wrapper" class="theme-default">
+
+    <div th:replace="admin/header :: common"></div>
+
+    <div th:replace="admin/menu :: common"></div>
+
+    <!--main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content" class="animated fadeInUp">
+
+            <div class="form-group">
+                <div id="message" class="alert alert-success alert-dismissable" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <p id="meg" style="text-align: center;font-size: 16px;"></p>
+                </div>
+            </div>
+            <!--mail wrapper start-->
+            <div class="row">
+                <!-- 加载特效 -->
+                <div id="loading" style="position: absolute;width:100%;height: 100%; background: white;opacity: 0.5; display: none;z-index: 100;">
+                    <div class="shaft-load6">
+                        <div class="shaft1"></div>
+                        <div class="shaft2"></div>
+                        <div class="shaft3"></div>
+                        <div class="shaft4"></div>
+                        <div class="shaft5"></div>
+                        <div class="shaft6"></div>
+                        <div class="shaft7"></div>
+                        <div class="shaft8"></div>
+                        <div class="shaft9"></div>
+                        <div class="shaft10"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12" id="inbox-wrapper">
+                    <section class="panel">
+                        <header class="panel-heading wht-bg">
+                            <h3 class="gen-case">用户留言</h3>
+                        </header>
+                        <div class="panel-body minimal">
+                            <div class="mail-option" style="margin-left: 15px;">
+                                <div class="pull-left mail-checkbox ">
+                                    <input type="checkbox" id="checkParent" class="icheck">
+                                </div>
+                                <div>
+                                    &nbsp;<button onclick="_checkBox()" type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive pull-left modal-body" style="height: 100%;width: 100%; overflow:auto;padding-right: 30px;">
+                                <table class="table table-inbox table-hover ">
+                                    <tbody>
+                                        <tr class="unread" th:each="comment : ${commentList}" th:onclick="'javascript: showDetail('+${comment.commentId}+')' ">
+                                            <td>
+                                                <input type="checkbox" class="icheck" name="checkBody" th:value="${comment.commentId}">
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-warning" th:if="${comment.commentStatus == 0}">未回复</span>
+                                                <span class="badge badge-success" th:if="${comment.commentStatus == 1}">已回复</span>
+                                            </td>
+                                            <td class="message" style="padding-top: 15px;">
+                                                <a href="javascript:void (0)">
+                                                    <span class="title" th:text="${comment.commentEmail}" style="margin-bottom: 15px;">Dribbble</span>
+                                                    <p th:text="${comment.commentText}">[Dribbble] Work Inquiry from Google Inc.</p>
+                                                </a>
+                                            </td>
+                                            <td class="text-right" th:text="${#dates.format(comment.commentTime, 'yyyy-MM-dd')}">April 20</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="col-md-6 col-sm-12" id="view-mail-wrapper">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <header>
+                                <h2>留言详情</h2>
+                                <p class="pull-right">Today, April 20, 2:45 PM</p>
+                            </header>
+                            <div class="row view-mail-header">
+                                <div class="col-md-8" id="emailHead"></div>
+                                <div class="col-md-4">
+                                    <div class="view-mail-reply pull-right">
+                                        <button class="btn btn-danger btn-sm tooltips" onclick="deleteOne()" style="width:80px;height: 30px; " title="Delete"><i class="fa fa-trash-o"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group" th:if="${baseResult != null}">
+                                    <div class="alert alert-success alert-dismissable" style="display: block;">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <p style="text-align: center;font-size: 16px;" th:text="${baseResult}"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel view-mail-body">
+                                        <form action="/admin/mail_send" method="post">
+                                            <div class="panel-body" id="emailBody" ></div>
+                                            <hr>
+                                            <header>
+                                                <h4 style="margin-left: 10px;">回复</h4>
+                                            </header>
+                                            <input type="hidden" name="commentId" id="hidId"/>
+                                            <input type="hidden" name="commentEmail" id="hidEmail"/>
+                                            <div class="panel-body">
+                                                <textarea class="textarea form-control" name="commentReply" rows="20" cols="120" placeholder="Enter text ..." style="width: 100%; height: 200px;margin-bottom: 20px;" required></textarea>
+                                            </div>
+                                            <div class="panel-footer" style="height: 65px;">
+                                                <button type="submit" onclick="load()" class="btn btn-sm btn-primary" style="float: right;margin-right: 30px;width: 100px;height: 30px;">发送邮件</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!--mail wrapper end-->
+    </section>
+    <!--main content end-->
+</section>
+
+<!-- 模态框（Modal） -->
+<div th:fragment="common" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" style="text-align: center">温馨提示</h3>
+            </div>
+            <div class="modal-body" id="modal_body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="admin/config :: common"></div>
+
+<!--Global JS-->
+<script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+<script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+<script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+<script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+<script src="/static/admin/assets/js/src/app.js"></script>
+<!--Page Level JS-->
+<script src="/static/admin/assets/plugins/bootstrap-wysihtml5/js/wysihtml5-0.3.0.js"></script>
+<script src="/static/admin/assets/plugins/bootstrap-wysihtml5/js/bootstrap3-wysihtml5.js"></script>
+<script src="/static/admin/assets/plugins/ckeditor/ckeditor.js"></script>
+<!--Page Level JS-->
+<script src="/static/admin/assets/plugins/icheck/js/icheck.min.js"></script>
+
+<script src="/static/admin/assets/js/html/comment.js"></script>
+
+
+</body>
+</html>

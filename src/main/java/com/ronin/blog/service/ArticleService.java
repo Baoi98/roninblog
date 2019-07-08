@@ -1,5 +1,7 @@
 package com.ronin.blog.service;
 
+import com.ronin.blog.dto.BaseResult;
+import com.ronin.blog.dto.PageInfo;
 import com.ronin.blog.entity.Article;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public interface ArticleService {
      * 所有文章
      * @return
      */
-    List<Article> selectAllArticle(Integer pageSize);
+    List<Article> selectAllArticle();
 
     /**
      * 根据ID查询文章
@@ -61,5 +63,43 @@ public interface ArticleService {
      * @return
      */
     List<Article> selectArticleByKeyWord(String keyWord);
+
+
+    /**
+     * 查询文章总数
+     * @return
+     */
+    Integer selectArticleCount();
+
+    /**
+     * DataTable分页
+     * @param draw
+     * @param start
+     * @param length
+     * @return
+     */
+    PageInfo<Article> page(Integer draw,Integer start,Integer length,Article article);
+
+    /**
+     * 新增文章
+     * @param article
+     * @return
+     */
+    int insertArticle(Article article);
+
+    /**
+     * 删除文章
+     * @param articleId
+     * @return
+     */
+    BaseResult deleteArticle(Integer articleId);
+
+    /**
+     * 新增和更新文章的分类和标签
+     * @param categoryId
+     * @param article
+     * @param tag
+     */
+    Article insertArticleCategoryAndTag(Integer categoryId,Article article,String[] tag);
 
 }

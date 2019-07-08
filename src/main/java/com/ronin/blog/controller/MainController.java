@@ -1,5 +1,6 @@
 package com.ronin.blog.controller;
 
+import com.ronin.blog.common.Const;
 import com.ronin.blog.entity.*;
 import com.ronin.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +21,18 @@ public class MainController {
 
     @Autowired
     private TagService tagService;
-
     @Autowired
     private ArticleService articleService;
-
     @Autowired
     private NoticeService noticeService;
-
     @Autowired
     private LinksService linksService;
-
     @Autowired
     private PageService pageService;
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private BannerService bannerService;
 
 
     /**
@@ -57,16 +55,18 @@ public class MainController {
         List<Article> hotArticles = articleService.findHotArticle();
         //友情链接
         List<Links> linksList = linksService.findLinks();
+        //轮播图
+        List<Banner> bannerList = bannerService.selectShowBanner();
 
         //存放信息
         model.addAttribute("topArticle",topArticle);
-        session.setAttribute("newArticles",newArticles);
-        //model.addAttribute("newArticles",newArticles);
         model.addAttribute("notice",notice);
         model.addAttribute("tagList",tagList);
         model.addAttribute("hotArticles",hotArticles);
+        model.addAttribute("bannerList",bannerList);
+        //由于多个页面都需要，放到session域中
         session.setAttribute("linksList",linksList);
-        //model.addAttribute("linksList",linksList);
+        session.setAttribute("newArticles",newArticles);
 
         return "reception/index";
     }
@@ -81,10 +81,9 @@ public class MainController {
         //关于我们
         Page page = pageService.selectPageMessage();
         User user = userService.selectUser();
-
         //存放信息
         model.addAttribute("page",page);
-        model.addAttribute("user",user);
+        model.addAttribute(Const.USER_SESSION,user);
 
         return "reception/about";
     }

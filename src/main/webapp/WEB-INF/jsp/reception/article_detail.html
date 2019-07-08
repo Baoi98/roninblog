@@ -23,11 +23,10 @@
             <a href="#" class="w_logo"></a>
             <span class="w_header_nav">
                 <ul>
-                    <li><a th:href="@{/}">首页</a></li>
-                    <li><a class="active" th:href="@{~/article}">文章</a></li>
-                    <li><a href="moodList.html">说说</a></li>
-                    <li><a href="comment.html">留言</a></li>
-                    <li><a th:href="@{~/about}">关于</a></li>
+                    <li><a href="" th:href="@{/}">首页</a></li>
+                    <li><a href="article.html" class="active" th:href="@{~/article}">文章</a></li>
+                    <li><a href="comment.html" th:href="@{/comment}">留言</a></li>
+                    <li><a href="about.html" th:href="@{~/about}">关于</a></li>
                 </ul>
             </span>
             <div class="w_search">
@@ -65,7 +64,7 @@
                         <div class="keybq">
                             <p>
                                 <span>标签</span>：
-                                <a class="label label-default" th:each="tag : ${article.tagList}" th:text="${tag.tagName}">个人博客</a>
+                                <a class="label label-default" th:each="tag : ${article.tagList}" th:href="@{${'/tag_article'}(tagId = ${tag.tagId})}" th:text="${tag.tagName}">个人博客</a>
                             </p>
                         </div>
                         <ul class="infos">
@@ -87,27 +86,24 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <center><div id="cyReward" role="cylabs" data-use="reward" sid="5eab7e4c363e4cb8bed0efa3604e6b42"></div></center>
-                        <div id="cyEmoji" role="cylabs" data-use="emoji" sid="5eab7e4c363e4cb8bed0efa3604e6b42"></div>
-                        <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
-                        <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cysPwLFm1"></script>
-                        <!-- 多说评论框 start -->
-                        <!--<div class="ds-thread" data-thread-key="testarticle" data-title="我的个人博客之——阿里云空间选择" data-url="http://127.0.0.1:8020/wilco/article_detail.html"></div>-->
-                        <!-- 多说评论框 end -->
-                        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-                        <!--<script type="text/javascript">
-                            var duoshuoQuery = {short_name:"wfyvv"};
-                            (function() {
-                                var ds = document.createElement('script');
-                                ds.type = 'text/javascript';ds.async = true;
-                                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                                ds.charset = 'UTF-8';
-                                (document.getElementsByTagName('head')[0]
-                                    || document.getElementsByTagName('body')[0]).appendChild(ds);
-                            })();
-                        </script>-->
-                        <!-- 多说公共JS代码 end -->
+                        <!-- 来必力City版安装代码 -->
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80NDk0OC8yMTQ2OQ==">
+                            <script type="text/javascript">
+                                (function(d, s) {
+                                    var j, e = d.getElementsByTagName(s)[0];
 
+                                    if (typeof LivereTower === 'function') { return; }
+
+                                    j = d.createElement(s);
+                                    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                                    j.async = true;
+
+                                    e.parentNode.insertBefore(j, e);
+                                })(document, 'script');
+                            </script>
+                            <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                        </div>
+                        <!-- City版安装代码已完成 -->
                     </div>
                 </div>
             </div>
@@ -157,8 +153,7 @@
         </div>
     </div>
 </div>
-<!--snow-->
-<!--<div class="snow-container"></div>-->
+
 
 </body>
 </html>

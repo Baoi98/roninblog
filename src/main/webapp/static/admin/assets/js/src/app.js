@@ -53,8 +53,8 @@ var app = function() {
 
     var customCheckbox = function() {
         $('input.icheck').iCheck({
-            checkboxClass: 'icheckbox_flat-grey',
-            radioClass: 'iradio_flat-grey'
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red'
         });
     }
 

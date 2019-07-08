@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/admin/assets/img/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- iCheck-->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/icheck/css/all.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/static/admin/assets/js/vendor/html5shiv.js"></script>
+    <script src="/static/admin/assets/js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<section id="main-wrapper" class="theme-default">
+
+    <div th:replace="admin/header :: common"></div>
+
+    <div th:replace="admin/menu :: common"></div>
+
+    <!--main content start-->
+    <section class="main-content-wrapper">
+        <section id="main-content" class="animated fadeInUp">
+            <!--mail wrapper start-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12" id="view-mail-wrapper">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <header>
+                                <h2>Article Detail</h2>
+                                <p class="pull-right" th:text="${#dates.format(article.articleUpdateTime, 'yyyy-MM-dd HH:mm:ss')}">Today, April 20, 2:45 PM</p>
+                            </header>
+                            <div class="row view-mail-header">
+                                <div class="col-md-8 ">
+                                    <img th:src="${article.articleUrl}" src="/static/admin/assets/img/avatar5.png" alt="文章展示图"  width="100" height="100">
+                                    <strong style="margin-left: 2%;"><a href="#" th:text="${article.articleTitle}">Ivan Bella</a></strong>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="view-mail-reply">
+                                        <button style="margin-right: 2%;height: 30px;" class="btn btn-sm" th:each="tag : ${article.tagList}" th:text="${tag.tagName}">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="panel view-mail-body">
+                                        <div class="panel-body">
+                                            <p th:utext="${article.articleContent}"></p>
+                                            <br>
+                                            <button style="width: 100px;height: 35px;" class="btn btn-sm btn-primary pull-right" onclick="history.go(-1)"><i class="fa fa-reply"></i>&nbsp;返回</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!--mail wrapper end-->
+        </section>
+    </section>
+    <!--main content end-->
+</section>
+
+<div th:replace="admin/config :: common"></div>
+<!--Global JS-->
+<script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+<script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+<script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+<script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+<script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+<script src="/static/admin/assets/js/src/app.js"></script>
+<!--Page Level JS-->
+<script src="/static/admin/assets/plugins/icheck/js/icheck.min.js"></script>
+<script>
+    $(document).ready(function() {
+        app.customCheckbox();
+        $('.tooltips').tooltip()
+
+    });
+</script>
+
+</body>
+
+</html>

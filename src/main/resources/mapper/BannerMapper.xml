@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.BannerMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Banner" >
+    <id column="banner_id" property="bannerId" jdbcType="INTEGER" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="banner_status" property="bannerStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="bannerLine">
+    banner_id, banner_url, banner_status
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Banner" >
+    insert into banner (banner_url, banner_status
+      )
+    values (#{bannerUrl,jdbcType=VARCHAR}, #{bannerStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Banner" >
+    update banner
+    set banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      banner_status = #{bannerStatus,jdbcType=INTEGER}
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="bannerLine"/>
+    from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="bannerLine"/>
+    from banner
+  </select>
+  <select id="selectShowBanner" resultMap="BaseResultMap" >
+    select <include refid="bannerLine"/>
+    from banner where banner_status = 1
+  </select>
+  <update id="changeBannerStatus" parameterType="map">
+    update banner set banner_status = #{bannerStatus} where banner_id = #{bannerId}
+  </update>
+  <select id="selectStartBannerCount" resultType="integer">
+    select count(banner_id)
+    from banner where banner_status = 1
+  </select>
+
+  <select id="selectBannerCount" resultType="integer">
+    select count(*) from banner
+  </select>
+</mapper>

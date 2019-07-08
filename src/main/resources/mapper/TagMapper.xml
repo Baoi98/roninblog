@@ -14,11 +14,9 @@
     delete from tag
     where tag_id = #{tagId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.ronin.blog.entity.Tag" >
-    insert into tag (tag_id, tag_name, tag_description
-      )
-    values (#{tagId,jdbcType=INTEGER}, #{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="map" >
+    insert into tag (tag_name,tag_description)
+    values ( #{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Tag" >
     update tag
@@ -36,9 +34,13 @@
     from tag
   </select>
 
-  <select id="selectTagByArticleId" resultMap="BaseResultMap">
-    SELECT
+  <select id="selectByDataTable" parameterType="integer" resultMap="BaseResultMap">
+    SELECT <include refid="tableLine"/>
+    FROM tag limit #{start},#{length}
+  </select>
 
+  <select id="selectTagCount" resultType="integer">
+    select count(tag_id) from tag
   </select>
 
 </mapper>

@@ -10,7 +10,6 @@
 
 
     <!-- 配置文件 -->
-    <!--<context:property-placeholder location="“”classpath:config/jdbc.properties"/>-->
     <context:property-placeholder location="classpath:config/jdbc.properties"/>
 
 

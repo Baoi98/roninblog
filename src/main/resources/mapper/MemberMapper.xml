@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.MemberMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Member" >
+    <id column="member_id" property="memberId" jdbcType="INTEGER" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="menber_password" property="menberPassword" jdbcType="VARCHAR" />
+    <result column="member_email" property="memberEmail" jdbcType="VARCHAR" />
+    <result column="member_create" property="memberCreate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Member" >
+    insert into member (member_id, member_name, menber_password, 
+      member_email, member_create)
+    values (#{memberId,jdbcType=INTEGER}, #{memberName,jdbcType=VARCHAR}, #{menberPassword,jdbcType=VARCHAR}, 
+      #{memberEmail,jdbcType=VARCHAR}, #{memberCreate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Member" >
+    update member
+    set member_name = #{memberName,jdbcType=VARCHAR},
+      menber_password = #{menberPassword,jdbcType=VARCHAR},
+      member_email = #{memberEmail,jdbcType=VARCHAR},
+      member_create = #{memberCreate,jdbcType=TIMESTAMP}
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select member_id, member_name, menber_password, member_email, member_create
+    from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select member_id, member_name, menber_password, member_email, member_create
+    from member
+  </select>
+</mapper>

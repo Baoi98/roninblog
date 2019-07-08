@@ -1,6 +1,8 @@
 package com.ronin.blog.mapper;
 
 import com.ronin.blog.entity.User;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface UserMapper {
@@ -13,4 +15,10 @@ public interface UserMapper {
     List<User> selectAll();
 
     int updateByPrimaryKey(User record);
+
+    User selectByUserEmail(String userEmail);
+
+    User selectByUserName(String userName);
+
+    int changeUserPass(@Param("userEmail") String userEmail,@Param("userPassword") String userPassword);
 }

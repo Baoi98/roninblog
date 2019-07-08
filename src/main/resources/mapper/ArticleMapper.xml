@@ -20,6 +20,10 @@
       <id column="user_id" property="userId"/>
       <result column="user_name" property="userName"/>
     </association>
+    <association property="category" javaType="Category">
+      <id column="category_id" property="categoryId"/>
+      <result column="category_name" property="categoryName"/>
+    </association>
     <collection property="tagList" javaType="list" ofType="Tag">
       <!-- 映射主键 -->
       <id column="tag_id" property="tagId"/>
@@ -34,24 +38,25 @@
     article_html, article_content, article_url
   </sql>
   <sql id="articleAndTagLine">
-    a.* , t.tag_id , t.tag_description , t.tag_name , u.user_id , u.user_name
+    a.* , t.tag_id , t.tag_description , t.tag_name , u.user_id , u.user_name , cate.category_id, cate.category_name
   </sql>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from article
     where article_id = #{articleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.ronin.blog.entity.Article" >
-    insert into article (article_id, article_user_id, article_title, article_summary,
-      article_view_count, article_comment_count, 
+  <insert id="insert" parameterType="com.ronin.blog.entity.Article" useGeneratedKeys="true" keyProperty="articleId">
+    insert into article (article_user_id, article_title, article_summary,
+      article_html, article_content,article_view_count, article_comment_count,
       article_like_count, article_is_comment, article_status, 
       article_update_time, article_create_time, 
-      article_html, article_content)
-    values (#{articleId,jdbcType=INTEGER}, #{articleUserId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, 
+      article_url)
+    values (#{articleUserId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR},#{articleSummary,jdbcType=VARCHAR},
+      #{articleHtml,jdbcType=LONGVARCHAR}, #{articleContent,jdbcType=LONGVARCHAR},
       #{articleViewCount,jdbcType=INTEGER}, #{articleCommentCount,jdbcType=INTEGER}, 
       #{articleLikeCount,jdbcType=INTEGER}, #{articleIsComment,jdbcType=INTEGER}, #{articleStatus,jdbcType=INTEGER}, 
       #{articleUpdateTime,jdbcType=TIMESTAMP}, #{articleCreateTime,jdbcType=TIMESTAMP}, 
-      #{articleHtml,jdbcType=LONGVARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+      #{articleUrl,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Article" >
     update article
@@ -66,7 +71,8 @@
       article_update_time = #{articleUpdateTime,jdbcType=TIMESTAMP},
       article_create_time = #{articleCreateTime,jdbcType=TIMESTAMP},
       article_html = #{articleHtml,jdbcType=LONGVARCHAR},
-      article_content = #{articleContent,jdbcType=LONGVARCHAR}
+      article_content = #{articleContent,jdbcType=LONGVARCHAR},
+      article_url = #{articleUrl,jdbcType=LONGVARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -74,6 +80,8 @@
     ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
     LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
     LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
+    LEFT JOIN category AS cate ON acr.category_id = cate.category_id
     WHERE a.article_id = #{articleId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
@@ -89,6 +97,8 @@
     ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
     LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
     LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
+    LEFT JOIN category AS cate ON acr.category_id = cate.category_id
     INNER JOIN (SELECT article_id FROM article LIMIT 6) s ON s.article_id = a.article_id
     WHERE article_status = 0
     ORDER BY article_update_time DESC
@@ -107,5 +117,36 @@
   <select id="selectArticleByKeyWord" parameterType="string" resultMap="BaseResultMap">
     SELECT <include refid="articleLine"/> FROM article
     WHERE article_title LIKE CONCAT('%',#{keyWord},'%')
+  </select>
+
+  <select id="selectTagArticle" parameterType="integer" resultMap="BaseResultMap">
+    SELECT <include refid="articleAndTagLine"/> FROM
+    ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
+    LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
+    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
+    LEFT JOIN category AS cate ON acr.category_id = cate.category_id
+    WHERE t.tag_id = #{tagId}
+  </select>
+
+  <select id="selectArticleCount" resultType="integer">
+    select count(article_id) from article
+  </select>
+
+  <select id="page" parameterType="map" resultType="Article">
+    select <include refid="articleLine"/>
+    from article
+    <where>
+      <if test="params.title != null and params.title != ''">
+        article_title like CONCAT("%",#{params.title},"%")
+      </if>
+      <if test="params.content != null and params.content != ''">
+        and article_content like CONCAT("%",#{params.content},"%")
+      </if>
+      <if test="params.status != null">
+        and article_status = #{params.status}
+      </if>
+    </where>
+    limit #{params.start},#{params.length}
   </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.ronin.blog.entity.Article;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ArticleMapper {
     int deleteByPrimaryKey(Integer articleId);
@@ -47,4 +48,23 @@ public interface ArticleMapper {
      * @return
      */
     List<Article> selectArticleByKeyWord(String keyWord);
+
+    /**
+     * 查询有特定Tag的文章
+     * @return
+     */
+    List<Article> selectTagArticle(Integer tagId);
+
+    /**
+     * 查询文章总数
+     * @return
+     */
+    Integer selectArticleCount();
+
+    /**
+     * DataTable分页数据
+     * @param params
+     * @return
+     */
+    List<Article> page(@Param(value = "params") Map<String,Object> params);
 }

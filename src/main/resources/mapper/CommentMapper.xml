@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ronin.blog.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.ronin.blog.entity.Comment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_email" property="commentEmail" jdbcType="VARCHAR" />
+    <result column="comment_status" property="commentStatus" jdbcType="INTEGER" />
+    <result column="comment_time" property="commentTime" jdbcType="TIMESTAMP" />
+    <result column="comment_text" property="commentText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="commentLine">
+    comment_id, comment_email, comment_status, comment_time, comment_text
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronin.blog.entity.Comment" >
+    insert into comment (comment_email, comment_status,
+      comment_time, comment_text)
+    values (#{commentEmail,jdbcType=VARCHAR}, #{commentStatus,jdbcType=INTEGER},
+      #{commentTime,jdbcType=TIMESTAMP}, #{commentText,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ronin.blog.entity.Comment" >
+    update comment
+    set comment_email = #{commentEmail,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=INTEGER},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      comment_text = #{commentText,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="commentLine"/>
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="commentLine"/>
+    from comment
+  </select>
+  <select id="selectAllOrderByDesc" resultMap="BaseResultMap" >
+    select <include refid="commentLine"/>
+    from comment ORDER BY comment_status ASC , comment_time DESC
+  </select>
+
+  <update id="updateCommentStatus" parameterType="integer">
+    update comment set comment_status = 1 where comment_id = #{commentId}
+  </update>
+
+  <delete id="deleteCommentByArray" >
+    delete from comment where comment_id in
+    <foreach collection="ids" item="item" open="(" separator="," close=")">
+       #{item}
+    </foreach>
+  </delete>
+
+  <select id="selectCommentCount" resultType="integer">
+    select count(*) from comment
+  </select>
+</mapper>

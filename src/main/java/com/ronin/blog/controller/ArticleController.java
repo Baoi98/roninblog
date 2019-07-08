@@ -1,12 +1,9 @@
 package com.ronin.blog.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ronin.blog.entity.Article;
-import com.ronin.blog.entity.Links;
 import com.ronin.blog.service.ArticleService;
-import com.ronin.blog.service.LinksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +40,7 @@ public class ArticleController {
         //分页
         PageHelper.startPage(pageNum,pageSize);
         //所有文章
-        List<Article> articleList = articleService.selectAllArticle(pageSize);
+        List<Article> articleList = articleService.selectAllArticle();
         PageInfo<Article> pageInfo = new PageInfo<>(articleList);
         //最新发布
         //List<Article> newArticle = articleService.findNewArticle();

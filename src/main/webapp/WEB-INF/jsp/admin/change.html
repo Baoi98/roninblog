@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RoninBlog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="/static/admin/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/assets/css/simple-line-icons.css">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="/static/admin/assets/plugins/switchery/switchery.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="/static/admin/assets/css/animate.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="/static/admin/assets/css/main.css">
+    <!-- Feature detection -->
+    <script src="/static/admin/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+
+<body>
+    <section id="main-wrapper" class="theme-default">
+        <div th:replace="admin/header :: common"></div>
+
+        <div th:replace="admin/menu :: common"></div>
+
+        <section class="main-content-wrapper">
+            <div class="pageheader">
+                <h1>修改密码</h1>
+                <div class="breadcrumb-wrapper hidden-xs">
+                    <span class="label">You are here:</span>
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/}">主页</a>
+                        </li>
+                        <li>系统设置</li>
+                        <li class="active">修改密码</li>
+                    </ol>
+                </div>
+            </div>
+            <section id="main-content" class="animated fadeInUp">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">修改密码</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-expand"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <section class="fuelux">
+                                    <div id="MyWizard" class="wizard">
+                                        <ul class="steps">
+                                            <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Step 1<span class="chevron"></span>
+                                            </li>
+                                            <li data-target="#step2"><span class="badge">2</span>Step 2<span class="chevron"></span>
+                                            </li>
+                                            <!--<li data-target="#step2"><span class="badge">3</span>Step 3<span class="chevron"></span>
+                                            </li>-->
+                                        </ul>
+                                        <div class="actions" style="display: none;">
+                                            <button type="button" class="btn btn-default btn-mini btn-prev" onclick="$('.btn-next').html('下一步')">上一步</button>
+                                            <button type="button" class="btn btn-primary btn-mini btn-next" onclick="finish();">下一步</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="message" class="alert alert-danger alert-dismissable" style="display: none;">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <p id="meg" style="text-align: center;"></p>
+                                        </div>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-pane active" id="step1">
+                                            <form class="form-horizontal">
+                                                <br>
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">管理员邮箱</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" id="userEmail" name="userEmail" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">管理员名称</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" id="userName" name="userName" onkeyup="checkEmail();" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </form>
+                                        </div>
+                                        <div class="step-pane" id="step2">
+                                            <form class="form-horizontal">
+                                                <br>
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">旧密码</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="password" id="oldPassword" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">新密码</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="password" id="newPassword" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">重复密码</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="password" id="retryPassword" onkeyup="checkPass();" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                            </form>
+                                        </div>
+                                        <!--<div class="step-pane" id="step2">
+                                            <form class="form-horizontal">
+                                                <br><br>
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+
+                                                </div>
+                                                <br>
+                                                <div class="form-group">
+
+                                                </div>
+                                                <br>
+                                            </form>
+                                        </div>-->
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <div th:replace="admin/config :: common"></div>
+
+
+    <!--Global JS-->
+    <script src="/static/admin/assets/js/vendor/jquery-1.11.1.min.js"></script>
+    <script src="/static/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/admin/assets/plugins/navgoco/jquery.navgoco.min.js"></script>
+    <script src="/static/admin/assets/plugins/switchery/switchery.min.js"></script>
+    <script src="/static/admin/assets/plugins/pace/pace.min.js"></script>
+    <script src="/static/admin/assets/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+    <script src="/static/admin/assets/js/src/app.js"></script>
+    <!--Page Level JS-->
+    <script src="/static/admin/assets/plugins/wizard/js/loader.min.js"></script>
+    <script src="/static/admin/assets/plugins/layer/layer.js"></script>
+
+    <script src="/static/admin/assets/js/html/change.js"></script>
+
+    <script>
+    </script>
+
+</body>
+</html>

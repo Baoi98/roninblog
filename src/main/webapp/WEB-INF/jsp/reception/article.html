@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Ronin博客</title>
-</head>
 
+</head>
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/static/reception/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="/static/reception/css/article.css"/>
@@ -22,14 +22,13 @@
         <div class="w_header_top">
             <a href="#" class="w_logo"></a>
             <span class="w_header_nav">
-					<ul>
-						<li><a href="" th:href="@{/}">首页</a></li>
-						<li><a href="" class="active" th:href="@{~/article}">文章</a></li>
-						<li><a href="moodList.html">说说</a></li>
-						<li><a href="comment.html">留言</a></li>
-                    	<li><a href="about.html" th:href="@{~/about}">关于</a></li>
-					</ul>
-				</span>
+				<ul>
+                    <li><a href="" th:href="@{/}">首页</a></li>
+                    <li><a href="article.html" class="active" th:href="@{~/article}">文章</a></li>
+                    <li><a href="comment.html" th:href="@{/comment}">留言</a></li>
+                    <li><a href="about.html" th:href="@{~/about}">关于</a></li>
+                </ul>
+			</span>
             <div class="w_search">
                 <form th:action="@{/article_search}" th:method="get">
                     <div class="w_searchbox">
@@ -60,7 +59,7 @@
                                 <div class="row">
                                     <div class="col-xs-6 col-md-3">
                                         <a href="#" class="thumbnail w_thumbnail">
-                                            <img src="/static/reception/img/aticleview.png" alt="...">
+                                            <img th:src="${article.articleUrl}" src="/static/reception/img/aticleview.png" alt="...">
                                         </a>
                                     </div>
 
@@ -94,7 +93,7 @@
 
                         <div class="page">
                             <nav aria-label="Page navigation">
-                                <ul class="pagination" style="color: black;" th:if="${pageInfo != null}">
+                                <ul class="pagination" th:if="${pageInfo != null}">
                                     <li><span th:text="'共 '+${pageInfo.pages}+' 页'"></span></li>
 
                                     <li th:class="${pageInfo.pageNum == 1}?'disabled':''">
@@ -134,7 +133,7 @@
                                 </ul>
 
 
-                                <ul class="pagination" style="color: black;" th:if="${pageInfoLike != null}">
+                                <ul class="pagination" th:if="${pageInfoLike != null}">
                                     <li><span th:text="'共 '+${pageInfoLike.pages}+' 页'"></span></li>
 
                                     <li th:class="${pageInfoLike.pageNum == 1}?'disabled':''">
@@ -166,6 +165,46 @@
                                         </a>
 
                                         <a th:if="${pageInfoLike.pageNum != pageInfoLike.pages}" th:href="@{${'/article_search'}(keyWord=${keyWord},pageNum=${pageInfoLike.pageNum + 1})}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+
+
+                                <ul class="pagination" th:if="${pageInfoTag != null}">
+                                    <li><span th:text="'共 '+${pageInfoTag.pages}+' 页'"></span></li>
+
+                                    <li th:class="${pageInfoTag.pageNum == 1}?'disabled':''">
+
+                                        <a th:if="${pageInfoTag.pageNum == 1}" href="javascript:void(0)"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+
+                                        <a th:if="${pageInfoTag.pageNum != 1}" th:href="@{${'/tag_article'}(tagId=${tagId},pageNum=${pageInfoTag.pageNum - 1})}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+
+                                    </li>
+
+
+                                    <li th:each="page : ${#numbers.sequence(1, pageInfoTag.pages)}"
+                                        th:class="${page == pageInfoTag.pageNum}?'active':''">
+                                        <a href="#" th:href="@{${'/tag_article'}(tagId=${tagId},pageNum = ${page})}"
+                                           th:text="${page}">1</a>
+                                    </li>
+
+                                    <li th:class="${pageInfoTag.pageNum == pageInfoTag.pages}?'disabled':''">
+
+                                        <a th:if="${pageInfoTag.pageNum == pageInfoTag.pages}" href="javascript:void(0)"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+
+                                        <a th:if="${pageInfoTag.pageNum != pageInfoTag.pages}" th:href="@{${'/tag_article'}(tagId=${tagId},pageNum=${pageInfoTag.pageNum + 1})}"
                                            aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>

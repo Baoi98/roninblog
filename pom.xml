@@ -35,7 +35,7 @@
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-extras.version>3.0.4.RELEASE</thymeleaf-extras.version>
         <pageHelper.version>5.1.2</pageHelper.version>
-
+        <apache-commons.version>1.4</apache-commons.version>
     </properties>
 
 
@@ -212,7 +212,25 @@
             <version>${pageHelper.version}</version>
         </dependency>
         <!-- PageHelper End -->
+
+        <!-- Apache Commons Begin -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>${apache-commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Apache Commons END -->
     </dependencies>
+
+
+
+
 
     <build>
         <plugins>
@@ -247,7 +265,10 @@
                     <overwrite>true</overwrite>
                 </configuration>
             </plugin>
+
+
         </plugins>
+
 
         <!-- 资源文件配置 -->
         <resources>
@@ -266,6 +287,8 @@
                 </includes>
             </resource>
         </resources>
+
+
     </build>
 
 </project>
