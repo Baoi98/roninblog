@@ -79,7 +79,7 @@
     SELECT <include refid="articleAndTagLine"/> FROM
     ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
     LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
-    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN user AS u ON u.user_id = a.article_user_id
     LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
     LEFT JOIN category AS cate ON acr.category_id = cate.category_id
     WHERE a.article_id = #{articleId,jdbcType=INTEGER}
@@ -96,7 +96,7 @@
     SELECT <include refid="articleAndTagLine"/> FROM
     ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
     LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
-    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN user AS u ON u.user_id = a.article_user_id
     LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
     LEFT JOIN category AS cate ON acr.category_id = cate.category_id
     INNER JOIN (SELECT article_id FROM article LIMIT 6) s ON s.article_id = a.article_id
@@ -123,7 +123,7 @@
     SELECT <include refid="articleAndTagLine"/> FROM
     ((article AS a LEFT JOIN article_tag_ref AS ref ON a.article_id = ref.article_id)
     LEFT JOIN tag AS t ON t.tag_id = ref.tag_id)
-    LEFT JOIN yuublog.user AS u ON u.user_id = a.article_user_id
+    LEFT JOIN user AS u ON u.user_id = a.article_user_id
     LEFT JOIN article_category_ref AS acr ON a.article_id = acr.article_id
     LEFT JOIN category AS cate ON acr.category_id = cate.category_id
     WHERE t.tag_id = #{tagId}
