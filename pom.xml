@@ -35,7 +35,7 @@
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-extras.version>3.0.4.RELEASE</thymeleaf-extras.version>
         <pageHelper.version>5.1.2</pageHelper.version>
-        <apache-commons.version>1.4</apache-commons.version>
+        <apache-commons.version>1.5</apache-commons.version>
     </properties>
 
 
